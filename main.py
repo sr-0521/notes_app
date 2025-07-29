@@ -4,18 +4,23 @@ import os
 import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk
 
+# File where notes are stored in JSON format
 NOTES_FILE = "notes.json"
 
+# Loads notes from the file if it exists, returns empty list otherwise
 def load_notes():
     if os.path.exists(NOTES_FILE):
         with open(NOTES_FILE, "r") as file:
             return json.load(file)
     return []
 
+# Saves the current list of notes to the JSON file.
 def save_notes(notes):
     with open(NOTES_FILE, "w") as file:
         json.dump(notes, file, indent=2)
 
+# Loads notes, clears the existing tree (table), and re-inserts each note
+#  into the display.
 def refresh_notes():
     notes = load_notes()
     for row in tree.get_children():
@@ -23,6 +28,8 @@ def refresh_notes():
     for i, note in enumerate(notes):
         tree.insert('', 'end', iid=i, values=(i+1, note['note'], note['timestamp']))
 
+# Receives text from input box, appends note and timestamp to notes list, saves,
+#  and refreshes.
 def add_note():
     note = note_entry.get().strip()
     if note:
@@ -37,6 +44,7 @@ def add_note():
     else:
         messagebox.showwarning("Input Error", "Note cannot be empty.")
 
+# Removes selected note from the list, saves, and refreshes display.
 def delete_note():
     selected = tree.focus()
     if selected:
@@ -49,6 +57,8 @@ def delete_note():
     else:
         messagebox.showwarning("Selection Error", "Please select a note to delete.")
 
+# Lets user edit a selected note from popup dialog, saves updated note with new
+#  timestamp, and refreshes display.
 def edit_note():
     selected = tree.focus()
     if selected:
@@ -64,19 +74,24 @@ def edit_note():
         messagebox.showwarning("Selection Error", "Please select a note to edit.")
 
 # GUI Setup
+
+# Creates the main window
 root = tk.Tk()
 root.title("Notes App")
 root.geometry("600x400")
 
+# Frame holds the input box + button
 frame = tk.Frame(root)
 frame.pack(pady=10)
 
+# Displays all notes with an ID, note text, and timestamp.
+# Clicking on a row allows edit/delete.
 note_entry = tk.Entry(frame, width=40)
 note_entry.pack(side=tk.LEFT, padx=5)
 
-add_btn = tk.Button(frame, text="Add Note", command=add_note)
-add_btn.pack(side=tk.LEFT, padx=5)
 
+
+# Displays all notes with an ID, note, text, and timestamp.
 tree = ttk.Treeview(root, columns=('ID', 'Note', 'Timestamp'), show='headings')
 tree.heading('ID', text='ID')
 tree.heading('Note', text='Note')
@@ -89,6 +104,10 @@ tree.pack(padx=10, pady=10, expand=True, fill=tk.BOTH)
 btn_frame = tk.Frame(root)
 btn_frame.pack(pady=5)
 
+# Buttons for adding, editing, deleting, and closing the app.
+add_btn = tk.Button(frame, text="Add Note", command=add_note)
+add_btn.pack(side=tk.LEFT, padx=5)
+
 edit_btn = tk.Button(btn_frame, text="Edit Selected", command=edit_note, width=15)
 edit_btn.pack(side=tk.LEFT, padx=10)
 
@@ -98,5 +117,7 @@ delete_btn.pack(side=tk.LEFT, padx=10)
 exit_btn = tk.Button(btn_frame, text="Exit", command=root.quit, width=15)
 exit_btn.pack(side=tk.LEFT, padx=10)
 
+# Fills in the note when the app starts.
+# Starts the GUI event loop (keeps the window open)
 refresh_notes()
 root.mainloop()
