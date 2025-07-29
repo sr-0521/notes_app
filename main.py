@@ -6,7 +6,8 @@ def display_menu():
     print("1. View notes")
     print("2. Add note")
     print("3. Delete note")
-    print("4. Exit")
+    print("4. Edit Note")
+    print("5. Exit")
 
 def add_note():
     note = input("Enter your note: ")
@@ -61,6 +62,32 @@ def delete_note():
         print("Invalid input.")
 
 def edit_note():
+    if not os.path.exists("notes.json"):
+        print("No notes file found.")
+        return
+    
+    with open("notes.json", "r") as file:
+        notes = json.load(file)
+
+    if not notes:
+        print("No notes to edit.")
+        return
+    
+    view_notes()
+    try:
+        index = int(input("Enter the number of the note to edit: ")) 
+        if 1 <= index <= len(notes):
+            new_text = input("Enter the new note next: ")
+            notes[index - 1]["note"] = new_text
+            notes[index - 1]["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            with open("notes.json", "w") as file:
+                json.dump(notes, file, indent=2)
+            print("Note updated successfully!")
+        else:
+            print("Invalid note number")
+    except ValueError:
+        print("Please enter a valid number.")
+            
     
 
 def main():
@@ -74,6 +101,8 @@ def main():
         elif choice == "3":
             delete_note()
         elif choice == "4":
+            edit_note()
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
