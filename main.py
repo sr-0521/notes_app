@@ -60,6 +60,9 @@ def delete_note():
     except ValueError:
         print("Invalid input.")
 
+def edit_note():
+    
+
 def main():
     while True:
         display_menu()
