@@ -1,112 +1,102 @@
 import json
 from datetime import datetime
 import os
-def display_menu():
-    print("\n===== Notes App ======")
-    print("1. View notes")
-    print("2. Add note")
-    print("3. Delete note")
-    print("4. Edit Note")
-    print("5. Exit")
+import tkinter as tk
+from tkinter import messagebox, simpledialog, ttk
+
+NOTES_FILE = "notes.json"
+
+def load_notes():
+    if os.path.exists(NOTES_FILE):
+        with open(NOTES_FILE, "r") as file:
+            return json.load(file)
+    return []
+
+def save_notes(notes):
+    with open(NOTES_FILE, "w") as file:
+        json.dump(notes, file, indent=2)
+
+def refresh_notes():
+    notes = load_notes()
+    for row in tree.get_children():
+        tree.delete(row)
+    for i, note in enumerate(notes):
+        tree.insert('', 'end', iid=i, values=(i+1, note['note'], note['timestamp']))
 
 def add_note():
-    note = input("Enter your note: ")
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    note_entry = {"note": note, "timestamp": timestamp}
-    notes = []
-
-    if os.path.exists("notes.json"):
-        with open("notes.json", "r") as file:
-            notes = json.load(file)
-
-    notes.append(note_entry)
-
-    with open("notes.json", "w") as file:
-        json.dump(notes, file, indent=2)
-    print("Note added!")
-
-def view_notes():
-    if not os.path.exists("notes.json"):
-        print("No notes file found. Add a note first.")
-        return
-
-    with open("notes.json", "r") as file:
-        notes = json.load(file)
-
-    if not notes:
-        print("No notes found.")
+    note = note_entry.get().strip()
+    if note:
+        notes = load_notes()
+        notes.append({
+            "note": note,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+        save_notes(notes)
+        refresh_notes()
+        note_entry.delete(0, tk.END)
     else:
-        print("\nYour Notes:")
-        for idx, entry in enumerate(notes, start=1):
-            print(f"{idx}. [{entry['timestamp']}] {entry['note']}")
+        messagebox.showwarning("Input Error", "Note cannot be empty.")
 
 def delete_note():
-    if not os.path.exists("notes.json"):
-        print("No notes to delete.")
-        return
-
-    with open("notes.json", "r") as file:
-        notes = json.load(file)
-
-    view_notes()
-    try:
-        index = int(input("Enter the number of the note to delete: "))
-        if 1 <= index <= len(notes):
-            removed_note = notes.pop(index - 1)
-            with open("notes.json", "w") as file:
-                json.dump(notes, file, indent=2)
-            print(f"Deleted note: {removed_note['note']}")
-        else:
-            print("Invalid index.")
-    except ValueError:
-        print("Invalid input.")
+    selected = tree.focus()
+    if selected:
+        index = int(selected)
+        notes = load_notes()
+        deleted_note = notes.pop(index)
+        save_notes(notes)
+        refresh_notes()
+        messagebox.showinfo("Deleted", f"Deleted note: {deleted_note['note']}")
+    else:
+        messagebox.showwarning("Selection Error", "Please select a note to delete.")
 
 def edit_note():
-    if not os.path.exists("notes.json"):
-        print("No notes file found.")
-        return
-    
-    with open("notes.json", "r") as file:
-        notes = json.load(file)
+    selected = tree.focus()
+    if selected:
+        index = int(selected)
+        notes = load_notes()
+        new_text = simpledialog.askstring("Edit Note", "Enter the new note text:", initialvalue=notes[index]['note'])
+        if new_text:
+            notes[index]['note'] = new_text
+            notes[index]['timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            save_notes(notes)
+            refresh_notes()
+    else:
+        messagebox.showwarning("Selection Error", "Please select a note to edit.")
 
-    if not notes:
-        print("No notes to edit.")
-        return
-    
-    view_notes()
-    try:
-        index = int(input("Enter the number of the note to edit: ")) 
-        if 1 <= index <= len(notes):
-            new_text = input("Enter the new note next: ")
-            notes[index - 1]["note"] = new_text
-            notes[index - 1]["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            with open("notes.json", "w") as file:
-                json.dump(notes, file, indent=2)
-            print("Note updated successfully!")
-        else:
-            print("Invalid note number")
-    except ValueError:
-        print("Please enter a valid number.")
-            
-    
+# GUI Setup
+root = tk.Tk()
+root.title("Notes App")
+root.geometry("600x400")
 
-def main():
-    while True:
-        display_menu()
-        choice = input("Choose an option (1-4): ")
-        if choice == "1":
-            view_notes()
-        elif choice == "2":
-            add_note()
-        elif choice == "3":
-            delete_note()
-        elif choice == "4":
-            edit_note()
-        elif choice == "5":
-            print("Goodbye!")
-            break
-        else:
-            print("Invalid choice. Please enter a number from 1 to 4.")
+frame = tk.Frame(root)
+frame.pack(pady=10)
 
-if __name__ == "__main__":
-    main()
+note_entry = tk.Entry(frame, width=40)
+note_entry.pack(side=tk.LEFT, padx=5)
+
+add_btn = tk.Button(frame, text="Add Note", command=add_note)
+add_btn.pack(side=tk.LEFT, padx=5)
+
+tree = ttk.Treeview(root, columns=('ID', 'Note', 'Timestamp'), show='headings')
+tree.heading('ID', text='ID')
+tree.heading('Note', text='Note')
+tree.heading('Timestamp', text='Timestamp')
+tree.column('ID', width=30, anchor='center')
+tree.column('Note', width=250)
+tree.column('Timestamp', width=200)
+tree.pack(padx=10, pady=10, expand=True, fill=tk.BOTH)
+
+btn_frame = tk.Frame(root)
+btn_frame.pack(pady=5)
+
+edit_btn = tk.Button(btn_frame, text="Edit Selected", command=edit_note, width=15)
+edit_btn.pack(side=tk.LEFT, padx=10)
+
+delete_btn = tk.Button(btn_frame, text="Delete Selected", command=delete_note, width=15)
+delete_btn.pack(side=tk.LEFT, padx=10)
+
+exit_btn = tk.Button(btn_frame, text="Exit", command=root.quit, width=15)
+exit_btn.pack(side=tk.LEFT, padx=10)
+
+refresh_notes()
+root.mainloop()
