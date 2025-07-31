@@ -78,15 +78,15 @@ def edit_note():
 # Creates the main window
 root = tk.Tk()
 root.title("Notes App")
-root.geometry("600x400")
+root.geometry("1000x800")
 
 # Frame holds the input box + button
 frame = tk.Frame(root)
-frame.pack(pady=10)
+frame.pack(pady=50)
 
 # Displays all notes with an ID, note text, and timestamp.
 # Clicking on a row allows edit/delete.
-note_entry = tk.Entry(frame, width=40)
+note_entry = tk.Entry(frame, width=80)
 note_entry.pack(side=tk.LEFT, padx=5)
 
 
@@ -105,8 +105,27 @@ btn_frame = tk.Frame(root)
 btn_frame.pack(pady=5)
 
 # Buttons for adding, editing, deleting, and closing the app.
-add_btn = tk.Button(frame, text="Add Note", command=add_note)
+# Styled label acting as a button
+add_label = tk.Label(
+    frame, text="Add Note", bg="pink", fg="white", font=("Arial", 15, "bold"), padx=10,
+    pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
+    justify="center", 
+)
+
+# Make the label behave like a button
+add_label.bind("<Button-1>", lambda event: add_note())
+
+# Optional hover effect
+add_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
+add_label.bind("<Leave>", lambda e: add_label.config(bg="blue"))
+
+add_label.pack(side=tk.LEFT, padx=5)
+"""add_btn = tk.Button(frame, text="Add Note", command=add_note,
+                    bd=2, cursor="hand2", fg="pink", font=("Arial", 15),
+                    height=2, highlightbackground="pink",
+                    highlightthickness=10, pady=10, wraplength=100)
 add_btn.pack(side=tk.LEFT, padx=5)
+"""
 
 edit_btn = tk.Button(btn_frame, text="Edit Selected", command=edit_note, width=15)
 edit_btn.pack(side=tk.LEFT, padx=10)
