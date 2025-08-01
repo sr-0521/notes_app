@@ -104,7 +104,7 @@ tree.pack(padx=10, pady=10, expand=True, fill=tk.BOTH)
 btn_frame = tk.Frame(root)
 btn_frame.pack(pady=5)
 
-# Buttons for adding, editing, deleting, and closing the app.
+# Add button
 # Styled label acting as a button
 add_label = tk.Label(
     frame, text="Add Note", bg="pink", fg="white", font=("Arial", 15, "bold"), padx=10,
@@ -127,12 +127,15 @@ add_label.pack(side=tk.LEFT, padx=5)
 add_btn.pack(side=tk.LEFT, padx=5)
 """
 
+# Edit button
 edit_btn = tk.Button(btn_frame, text="Edit Selected", command=edit_note, width=15)
 edit_btn.pack(side=tk.LEFT, padx=10)
 
+# Delete button
 delete_btn = tk.Button(btn_frame, text="Delete Selected", command=delete_note, width=15)
 delete_btn.pack(side=tk.LEFT, padx=10)
 
+# Exit button
 exit_btn = tk.Button(btn_frame, text="Exit", command=root.quit, width=15)
 exit_btn.pack(side=tk.LEFT, padx=10)
 
