@@ -107,11 +107,10 @@ btn_frame.pack(pady=5)
 # Add button
 # Styled label acting as a button
 add_label = tk.Label(
-    frame, text="Add Note", bg="pink", fg="white", font=("Arial", 15, "bold"), padx=10,
+    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
     pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
     justify="center", 
 )
-
 # Make the label behave like a button
 add_label.bind("<Button-1>", lambda event: add_note())
 
@@ -127,15 +126,49 @@ add_label.pack(side=tk.LEFT, padx=5)
 add_btn.pack(side=tk.LEFT, padx=5)
 """
 
+
 # Edit button
+edit_label = tk.Label(
+    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
+    pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
+    justify="center", 
+)
+# Make the label behave like a button
+edit_label.bind("<Button-1>", lambda event: edit_note())
+
+# Optional hover effect
+edit_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
+edit_label.bind("<Leave>", lambda e: add_label.config(bg="blue"))
 edit_btn = tk.Button(btn_frame, text="Edit Selected", command=edit_note, width=15)
 edit_btn.pack(side=tk.LEFT, padx=10)
 
 # Delete button
+delete_label = tk.Label(
+    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
+    pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
+    justify="center", 
+)
+# Make the label behave like a button
+delete_label.bind("<Button-1>", lambda event: add_note())
+
+# Optional hover effect
+delete_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
+delete_label.bind("<Leave>", lambda e: add_label.config(bg="blue"))
 delete_btn = tk.Button(btn_frame, text="Delete Selected", command=delete_note, width=15)
 delete_btn.pack(side=tk.LEFT, padx=10)
 
 # Exit button
+exit_label = tk.Label(
+    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
+    pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
+    justify="center", 
+)
+# Make the label behave like a button
+exit_label.bind("<Button-1>", lambda event: add_note())
+
+# Optional hover effect
+exit_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
+exit_label.bind("<Leave>", lambda e: add_label.config(bg="blue"))
 exit_btn = tk.Button(btn_frame, text="Exit", command=root.quit, width=15)
 exit_btn.pack(side=tk.LEFT, padx=10)
 
