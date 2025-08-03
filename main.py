@@ -149,7 +149,7 @@ delete_label = tk.Label(
     justify="center", 
 )
 # Make the label behave like a button
-delete_label.bind("<Button-1>", lambda event: add_note())
+delete_label.bind("<Button-1>", lambda event: delete_note())
 
 # Optional hover effect
 delete_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
