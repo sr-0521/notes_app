@@ -164,7 +164,7 @@ exit_label = tk.Label(
     justify="center", 
 )
 # Make the label behave like a button
-exit_label.bind("<Button-1>", lambda event: add_note())
+exit_label.bind("<Button-1>", lambda event: refresh_notes())
 
 # Optional hover effect
 exit_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
