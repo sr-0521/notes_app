@@ -129,7 +129,7 @@ add_btn.pack(side=tk.LEFT, padx=5)
 
 # Edit button
 edit_label = tk.Label(
-    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
+    frame, text="Edit Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
     pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
     justify="center", 
 )
@@ -144,7 +144,7 @@ edit_btn.pack(side=tk.LEFT, padx=10)
 
 # Delete button
 delete_label = tk.Label(
-    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
+    frame, text="Delete Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
     pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
     justify="center", 
 )
@@ -159,7 +159,7 @@ delete_btn.pack(side=tk.LEFT, padx=10)
 
 # Exit button
 exit_label = tk.Label(
-    frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
+    frame, text="Exit Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
     pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
     justify="center", 
 )
