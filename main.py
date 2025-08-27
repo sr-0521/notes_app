@@ -82,14 +82,12 @@ root.geometry("1000x800")
 
 # Frame holds the input box + button
 frame = tk.Frame(root)
-frame.pack(pady=50)
+frame.pack(pady=80)
 
 # Displays all notes with an ID, note text, and timestamp.
 # Clicking on a row allows edit/delete.
 note_entry = tk.Entry(frame, width=80)
 note_entry.pack(side=tk.LEFT, padx=5)
-
-
 
 # Displays all notes with an ID, note, text, and timestamp.
 tree = ttk.Treeview(root, columns=('ID', 'Note', 'Timestamp'), show='headings')
@@ -104,72 +102,52 @@ tree.pack(padx=10, pady=10, expand=True, fill=tk.BOTH)
 btn_frame = tk.Frame(root)
 btn_frame.pack(pady=5)
 
-# Add button
-# Styled label acting as a button
+# Add button (Label)
 add_label = tk.Label(
     frame, text="Add Note", bg="blue", fg="white", font=("Arial", 15, "bold"), padx=10,
     pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,wraplength=100,
-    justify="center", 
-)
+    justify="center")
 # Make the label behave like a button
 add_label.bind("<Button-1>", lambda event: add_note())
-
 # Optional hover effect
 add_label.bind("<Enter>", lambda e: add_label.config(bg="deepskyblue"))
 add_label.bind("<Leave>", lambda e: add_label.config(bg="blue"))
-
 add_label.pack(side=tk.LEFT, padx=5)
-"""add_btn = tk.Button(frame, text="Add Note", command=add_note,
-                    bd=2, cursor="hand2", fg="pink", font=("Arial", 15),
-                    height=2, highlightbackground="pink",
-                    highlightthickness=10, pady=10, wraplength=100)
-add_btn.pack(side=tk.LEFT, padx=5)
-"""
-
 
 # Edit button (Label)
 edit_label = tk.Label(
-    btn_frame, text="Edit Selected", bg="blue", fg="white", font=("Arial", 15, "bold"),
+    btn_frame, text="Edit Note", bg="blue", fg="white", font=("Arial", 15, "bold"),
     padx=10, pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,
-    wraplength=100, justify="center",
-)
+    wraplength=100, justify="center")
 # Make the label behave like a button
 edit_label.bind("<Button-1>", lambda event: edit_note())
-
 # Optional hover effect
 edit_label.bind("<Enter>", lambda e: edit_label.config(bg="deepskyblue"))
 edit_label.bind("<Leave>", lambda e: edit_label.config(bg="blue"))
-
 edit_label.pack(side=tk.LEFT, padx=10)
 
 # Delete button (Label)
 delete_label = tk.Label(
     btn_frame, text="Delete Selected", bg="blue", fg="white", font=("Arial", 15, "bold"),
     padx=10, pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,
-    wraplength=100, justify="center",
-)
+    wraplength=100, justify="center")
 # Make the label behave like a button
 delete_label.bind("<Button-1>", lambda event: delete_note())
-
 # Optional hover effect
 delete_label.bind("<Enter>", lambda e: delete_label.config(bg="deepskyblue"))
 delete_label.bind("<Leave>", lambda e: delete_label.config(bg="blue"))
-
 delete_label.pack(side=tk.LEFT, padx=10)
 
 # Exit button (Label)
 exit_label = tk.Label(
     btn_frame, text="Exit", bg="blue", fg="white", font=("Arial", 15, "bold"),
     padx=10, pady=5, bd=3, relief="raised", cursor="hand2", width=15, height=2,
-    wraplength=100, justify="center",
-)
+    wraplength=100, justify="center")
 # Make the label behave like a button
 exit_label.bind("<Button-1>", lambda event: root.quit())
-
 # Optional hover effect
 exit_label.bind("<Enter>", lambda e: exit_label.config(bg="deepskyblue"))
 exit_label.bind("<Leave>", lambda e: exit_label.config(bg="blue"))
-
 exit_label.pack(side=tk.LEFT, padx=10)
 
 # Fills in the note when the app starts.
