@@ -1,33 +1,78 @@
-# Notes App (Command-Line)
+# 📝 Modern Desktop Notes App
+A lightweight, dark-themed note-taking application built with Python.
 
-A simple command-line notes app written in Python. It allows you to:
-- Add notes with timestamps
-- View saved notes
-- Delete specific notes
+This project is a desktop application designed to provide a clean, distraction-free environment for taking quick notes. Unlike standard Tkinter applications that often look dated, this app features a custom Dark Mode UI, a split-view layout, and persistent JSON storage.
 
-## Features
+# 📸 Preview
+<img width="1095" height="675" alt="Screenshot 2025-12-17 at 10 46 52 PM" src="https://github.com/user-attachments/assets/195bb72e-f07d-4382-b31d-7dea4b874029" />
 
-- Stores notes in a JSON file (`notes.json`)
-- Each note includes a timestamp
-- CLI menu navigation
-- Persistent storage between sessions
 
-## Requirements
+# 🚀 Features
+Modern Dark UI: Custom color palette (#2d2d2d background) with generic Tkinter widgets styled to look flat and modern.
 
-- Python 3.x
+Persistent Storage: Notes are automatically saved to a local notes.json file, ensuring data persists between sessions.
 
-## How to Use
+Split-View Layout: Classic "Master-Detail" view allows users to browse notes on the left while editing on the right.
 
-1. Clone this repository or download the code.
-2. Open a terminal and navigate to the project folder.
-3. Run the app using:
-```bash
-python3 main.py
-4. Follow the on-screen menu to add, view, or delete notes.
+CRUD Operations: Full capability to Create, Read, Update, and Delete notes.
 
-===== Notes App ======
-1. View notes
-2. Add note
-3. Delete note
-4. Exit
-Choose an option (1-4):
+Dynamic Timestamps: Automatically tracks and updates the "Last Modified" time for every note.
+
+# 🛠️ Tech Stack
+Language: Python 3.x
+
+GUI Framework: Tkinter & ttk (Themed Tkinter)
+
+Data Storage: JSON (Flat file database)
+
+# 💻 Code Highlights
+The application is structured using Object-Oriented Programming (OOP) to maintain clean separation between the Layout, Styling, and Logic.
+
+Custom UI Styling
+
+Standard Tkinter buttons look outdated, so I implemented a helper method to generate flat, modern buttons with hover effects:
+
+Python
+def create_button(self, parent, text, command, bg):
+    btn = tk.Button(parent, text=text, command=command, 
+                    bg=bg, fg="black", bd=0, padx=15, pady=8)
+    
+    # Dynamic Hover Effects
+    btn.bind("<Enter>", lambda e: btn.config(bg=lighter_color))
+    btn.bind("<Leave>", lambda e: btn.config(bg=original_color))
+    return btn
+JSON Data Persistence
+
+Data is managed through a lightweight JSON handler that ensures state is saved instantly upon every edit:
+
+Python
+def save_note(self):
+    # Logic to update existing note or append new one
+    notes = self.load_notes_from_file()
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    notes[self.current_note_index]['note'] = content
+    notes[self.current_note_index]['timestamp'] = timestamp
+    
+    self.save_notes_to_file(notes)
+# 🎮 How to Run
+Clone the repository:
+
+Bash
+git clone https://github.com/yourusername/notes_app.git
+Navigate to the folder:
+
+Bash
+cd modern-notes-app
+Run the application:
+
+Bash
+python3 notes.py
+(No external dependencies or pip install required!)
+
+🔮 Future Improvements
+Add a Search Bar to filter notes by text.
+
+Implement Markdown rendering for the text editor.
+
+Add cloud sync support (Google Drive API).
